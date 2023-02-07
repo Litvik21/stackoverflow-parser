@@ -44,14 +44,11 @@ public class UserServiceImpl implements UserService {
     public List<User> getFilteredUsers(ExternalItemsUserDto dto) {
         Pattern romania = Pattern.compile("Romania");
         Pattern moldova = Pattern.compile("Moldova");
-        // this param for testing that app is working, because I didn't have people from Romania or Moldova
-        Pattern uk = Pattern.compile("United Kingdom");
 
         return Arrays.stream(dto.getItems())
                 .filter(u -> u.getLocation() != null &&
                         (romania.matcher(u.getLocation()).find() ||
-                                moldova.matcher(u.getLocation()).find() ||
-                                uk.matcher(u.getLocation()).find()))
+                                moldova.matcher(u.getLocation()).find()))
                 .filter(u -> u.getReputation() > 223)
                 .filter(u -> u.getAnswer_count() > 0)
                 .map(mapper::toModel)
