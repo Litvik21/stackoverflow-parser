@@ -7,16 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import test.stackoverflow.dto.mapper.UserMapper;
 import test.stackoverflow.dto.user.ExternalItemsUserDto;
 import test.stackoverflow.dto.user.ExternalUserInfoDto;
-import test.stackoverflow.model.User;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl service;
     private ExternalItemsUserDto dto;
+    private ExternalUserInfoDto user3, user5;
 
     @BeforeEach
     void setUp() {
@@ -41,7 +40,7 @@ class UserServiceImplTest {
         user2.setProfile_image("");
         user2.setProfileUrl("");
         user2.setQuestion_count(0L);
-        ExternalUserInfoDto user3 = new ExternalUserInfoDto();
+        user3 = new ExternalUserInfoDto();
         user3.setLocation("City, Romania");
         user3.setAnswer_count(23L);
         user3.setReputation(400L);
@@ -61,7 +60,7 @@ class UserServiceImplTest {
         user4.setProfile_image("");
         user4.setProfileUrl("");
         user4.setQuestion_count(0L);
-        ExternalUserInfoDto user5 = new ExternalUserInfoDto();
+        user5 = new ExternalUserInfoDto();
         user5.setLocation("Moldova");
         user5.setAnswer_count(1L);
         user5.setReputation(400L);
@@ -82,20 +81,15 @@ class UserServiceImplTest {
 
     @Test
     void shouldReturnFilteredUsers() {
-        User user1 = new User();
-        user1.setLocation("City, Romania");
-        user1.setAnswerCount(23L);
-        User user2 = new User();
-        user2.setLocation("Moldova");
-        user2.setAnswerCount(1L);
-        List<User> expected = List.of(user1, user2);
-        service = new UserServiceImpl(null, new UserMapper());
-        List<User> actual = service.getFilteredUsers(dto);
+        List<ExternalUserInfoDto> expected = List.of(user3, user5);
+        List<ExternalUserInfoDto> actual = service.getFilteredDtos(dto);
 
         Assertions.assertEquals(expected.size(), actual.size());
         Assertions.assertEquals(expected.get(0).getLocation(), actual.get(0).getLocation());
-        Assertions.assertEquals(expected.get(0).getAnswerCount(), actual.get(0).getAnswerCount());
+        Assertions.assertEquals(expected.get(0).getAnswer_count(), actual.get(0).getAnswer_count());
+        Assertions.assertEquals(expected.get(0).getReputation(), actual.get(0).getReputation());
         Assertions.assertEquals(expected.get(1).getLocation(), actual.get(1).getLocation());
-        Assertions.assertEquals(expected.get(1).getAnswerCount(), actual.get(1).getAnswerCount());
+        Assertions.assertEquals(expected.get(1).getAnswer_count(), actual.get(1).getAnswer_count());
+        Assertions.assertEquals(expected.get(1).getReputation(), actual.get(1).getReputation());
     }
 }

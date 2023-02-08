@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import test.stackoverflow.dto.user.ExternalItemsUserDto;
+import test.stackoverflow.dto.user.ExternalUserInfoDto;
 import test.stackoverflow.model.User;
 import test.stackoverflow.service.UserService;
 
@@ -26,9 +27,11 @@ public class StackoverflowApplication {
         return (args) -> {
             ExternalItemsUserDto usersFromApi = service.getUsersFromApi();
 
-            List<User> filteredUsers = service.getFilteredUsers(usersFromApi);
+            List<ExternalUserInfoDto> filteredDtos = service.getFilteredDtos(usersFromApi);
 
-            List<User> usersWithTags = service.getTagsForUsersFromApi(filteredUsers);
+            List<User> users = service.mapDtoToUser(filteredDtos);
+
+            List<User> usersWithTags = service.getTagsForUsersFromApi(users);
 
             service.showUsers(usersWithTags);
         };

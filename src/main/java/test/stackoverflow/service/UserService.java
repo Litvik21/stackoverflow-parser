@@ -1,8 +1,8 @@
 package test.stackoverflow.service;
 
 import java.util.List;
-
 import test.stackoverflow.dto.user.ExternalItemsUserDto;
+import test.stackoverflow.dto.user.ExternalUserInfoDto;
 import test.stackoverflow.model.User;
 
 public interface UserService {
@@ -10,7 +10,9 @@ public interface UserService {
 
     ExternalItemsUserDto getUsersFromApi();
 
-    List<User> getFilteredUsers(ExternalItemsUserDto dto);
+    List<ExternalUserInfoDto> getFilteredDtos(ExternalItemsUserDto dto);
+
+    List<User> mapDtoToUser(List<ExternalUserInfoDto> dtos);
 
     List<User> getTagsForUsersFromApi(List<User> users);
 }

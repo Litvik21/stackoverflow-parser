@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import test.stackoverflow.dto.tag.ExternalItemsTagDto;
 import test.stackoverflow.dto.user.ExternalItemsUserDto;
 import test.stackoverflow.dto.mapper.UserMapper;
+import test.stackoverflow.dto.user.ExternalUserInfoDto;
 import test.stackoverflow.model.User;
 import test.stackoverflow.util.HttpClient;
 
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getFilteredUsers(ExternalItemsUserDto dto) {
+    public List<ExternalUserInfoDto> getFilteredDtos(ExternalItemsUserDto dto) {
         Pattern romania = Pattern.compile("Romania");
         Pattern moldova = Pattern.compile("Moldova");
 
@@ -51,6 +52,12 @@ public class UserServiceImpl implements UserService {
                                 moldova.matcher(u.getLocation()).find()))
                 .filter(u -> u.getReputation() > 223)
                 .filter(u -> u.getAnswer_count() > 0)
+                .toList();
+    }
+
+    @Override
+    public List<User> mapDtoToUser(List<ExternalUserInfoDto> dtos) {
+        return dtos.stream()
                 .map(mapper::toModel)
                 .toList();
     }
@@ -72,6 +79,6 @@ public class UserServiceImpl implements UserService {
         }
         return users.stream()
                 .filter(u -> u.getTags() != null)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
