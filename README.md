@@ -18,6 +18,6 @@ This app can get users from https://api.stackexchange.com/docs using filter by p
 - Spring Boot
 
 ## ⚡️Quickstart
-1. Copy this project
+1. Clone this project
 2. Open project in IDE
 3. Run project

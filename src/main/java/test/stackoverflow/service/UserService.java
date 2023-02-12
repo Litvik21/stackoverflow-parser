@@ -12,7 +12,5 @@ public interface UserService {
 
     List<ExternalUserInfoDto> getFilteredDtos(ExternalItemsUserDto dto);
 
-    List<User> mapDtoToUser(List<ExternalUserInfoDto> dtos);
-
     List<User> getTagsForUsersFromApi(List<User> users);
 }

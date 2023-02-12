@@ -8,13 +8,13 @@ import test.stackoverflow.model.User;
 public class UserMapper {
     public User toModel(ExternalUserInfoDto dto) {
         User user = new User();
-        user.setExternalId(dto.getUser_id());
-        user.setUsername(dto.getDisplay_name());
+        user.setExternalId(dto.getUserId());
+        user.setUsername(dto.getDisplayName());
         user.setLocation(dto.getLocation());
-        user.setAvatarLink(dto.getProfile_image());
+        user.setAvatarLink(dto.getProfileImage());
         user.setProfileLink(dto.getLink());
-        user.setAnswerCount(dto.getAnswer_count());
-        user.setQuestionCount(dto.getQuestion_count());
+        user.setAnswerCount(dto.getAnswerCount());
+        user.setQuestionCount(dto.getQuestionCount());
 
         return user;
     }
