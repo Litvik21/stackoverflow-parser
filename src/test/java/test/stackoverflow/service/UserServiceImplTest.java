@@ -82,7 +82,7 @@ class UserServiceImplTest {
     @Test
     void shouldReturnFilteredUsers() {
         List<ExternalUserInfoDto> expected = List.of(user3, user5);
-        List<ExternalUserInfoDto> actual = service.getFilteredDtos(dto);
+        List<ExternalUserInfoDto> actual = service.getFilteredDtos(dto, "Romania", "Moldova");
 
         Assertions.assertEquals(expected.size(), actual.size());
         Assertions.assertEquals(expected.get(0).getLocation(), actual.get(0).getLocation());

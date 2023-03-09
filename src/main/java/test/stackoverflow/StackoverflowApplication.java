@@ -31,7 +31,8 @@ public class StackoverflowApplication {
         return (args) -> {
             ExternalItemsUserDto usersFromApi = service.getUsersFromApi();
 
-            List<ExternalUserInfoDto> filteredDtos = service.getFilteredDtos(usersFromApi);
+            List<ExternalUserInfoDto> filteredDtos = service
+                    .getFilteredDtos(usersFromApi, "Romania", "Moldova");
 
             List<User> users = filteredDtos.stream()
                     .map(mapper::toModel)

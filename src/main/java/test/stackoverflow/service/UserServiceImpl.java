@@ -42,14 +42,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ExternalUserInfoDto> getFilteredDtos(ExternalItemsUserDto dto) {
-        Pattern romania = Pattern.compile("Romania");
-        Pattern moldova = Pattern.compile("Moldova");
+    public List<ExternalUserInfoDto> getFilteredDtos(ExternalItemsUserDto dto, String... countries) {
+        Pattern[] countryPatterns = Arrays.stream(countries)
+                .map(Pattern::compile)
+                .toArray(Pattern[]::new);
 
         return Arrays.stream(dto.getItems())
                 .filter(u -> u.getLocation() != null &&
-                        (romania.matcher(u.getLocation()).find() ||
-                                moldova.matcher(u.getLocation()).find()))
+                        (Arrays.stream(countryPatterns)
+                                .anyMatch(p -> p.matcher(u.getLocation()).find())))
                 .filter(u -> u.getReputation() > MIN_REPUTATION_RANK)
                 .filter(u -> u.getAnswerCount() >= MIN_ANSWERS_COUNT)
                 .toList();
@@ -57,9 +58,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getTagsForUsersFromApi(List<User> users) {
+        StringBuilder tagUrl = new StringBuilder(tagStartLink);
         for (User user : users) {
             ExternalItemsTagDto externalTags = httpClient
-                    .get(tagStartLink + user.getExternalId() + tagEndLink, ExternalItemsTagDto.class);
+                    .get(tagUrl.append(user.getExternalId()).append(tagEndLink).toString(), ExternalItemsTagDto.class);
             if (externalTags.getItems() != null) {
                 user.setTags(Arrays.stream(externalTags.getItems())
                         .filter(t -> TAGS.contains(t.getName()))

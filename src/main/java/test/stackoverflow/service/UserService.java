@@ -10,7 +10,7 @@ public interface UserService {
 
     ExternalItemsUserDto getUsersFromApi();
 
-    List<ExternalUserInfoDto> getFilteredDtos(ExternalItemsUserDto dto);
+    List<ExternalUserInfoDto> getFilteredDtos(ExternalItemsUserDto dto, String... countries);
 
     List<User> getTagsForUsersFromApi(List<User> users);
 }
